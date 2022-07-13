@@ -1,6 +1,8 @@
 import "../styles/statBlock.css";
 import React, { useState } from "react";
 import { Card, Button, ListGroup, Popover, OverlayTrigger } from 'react-bootstrap';
+import Encounter from "./Encounter";
+import AddToEncounterButton from "./AddToEncounterButton";
 function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, speed, stats, actions, legendaryActions, savingThrows, XP, CR, senses, languages, specialAbilities, conditionImmunities, damageImmunities, damageResistances, damageVulnerabilities }) {
 
     const [d20, setD20] = useState();
@@ -10,11 +12,11 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
     const [damageTotal, setDamageTotal] = useState();
     const [attackNameHit, setAttackNameHit] = useState();
     const [attackNameDamage, setAttackNameDamage] = useState();
-
     const [statCheck, setStatCheck] = useState();
     const [statCheckName, setStatCheckName] = useState();
     const [savingThrow, setSavingThrow] = useState();
     const [savingThrowName, setSavingThrowName] = useState();
+    const [addToEncounterArray, setAddToEncounterArray] = useState([]);
 
     function attackButton(action) {
         setAttackNameHit(action.name);
@@ -111,17 +113,23 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
     }
 
     function statCheckRoll(stat, name) {
+        stat = Math.floor((stat - 10) / 2);
+        console.log(stat);
         setStatCheckName(name);
         let random = 1 + Math.floor(Math.random() * 20);
         setStatCheck(random + stat);
+        console.log(stat, random);
     }
-    function savingThrowRoll(stat, name) {
+    function savingThrowRoll(save, name, stat) {
+        stat = Math.floor((stat - 10) / 2);
         setSavingThrowName(name);
         let random = 1 + Math.floor(Math.random() * 20);
-        if (!stat) {
-            setSavingThrow(random);
+        if (save) {
+            setSavingThrow(random + save);
+            console.log('D20 Roll: ', random, 'Proficency bonus: ', save);
         } else {
             setSavingThrow(random + stat);
+            console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
         }
     }
 
@@ -169,6 +177,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         <Button onClick={() => clearDamageFunction()} variant='dark' size="sm" style={{ width: '5rem' }}>Clear</Button>
                     </div>
                 </Card>
+                <Encounter addToEncounterArray={addToEncounterArray} setAddToEncounterArray={setAddToEncounterArray} />
             </div>
             <br />
 
@@ -176,7 +185,21 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Card className='customCard' style={{ width: '15rem', height: '32rem' }}>
                     <div>
-                        <Card.Img fluid='true' variant="top" src="ABD.jpeg" style={{ width: '10rem' }} />
+
+
+
+                        <AddToEncounterButton
+                            addToEncounterArray={addToEncounterArray}
+                            setAddToEncounterArray={setAddToEncounterArray}
+                            name={name}
+                            HP={HP}
+                        />
+
+                        {/* <Card.Img fluid='true' variant="top" src="ABD.jpeg" style={{ width: '10rem' }} /> */}
+
+
+
+
                     </div>
                     <Card.Body>
                         <Card.Title>{name}</Card.Title>
@@ -260,16 +283,16 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                             <div>
                                 <ListGroup>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.str, 'STR')} variant="outline-dark">STR: {savingThrows.str}</Button></ListGroup.Item>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.dex, 'DEX')} variant="outline-dark">DEX: {savingThrows.dex}</Button></ListGroup.Item>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.con, 'CON')} variant="outline-dark">CON: {savingThrows.con}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.str, 'STR', stats.str)} variant="outline-dark">STR: {savingThrows.str}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.dex, 'DEX', stats.dex)} variant="outline-dark">DEX: {savingThrows.dex}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.con, 'CON', stats.con)} variant="outline-dark">CON: {savingThrows.con}</Button></ListGroup.Item>
                                 </ListGroup>
                             </div>
                             <div>
                                 <ListGroup>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.int, 'INT')} variant="outline-dark">INT: {savingThrows.int}</Button></ListGroup.Item>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.wis, 'WIS')} variant="outline-dark">WIS: {savingThrows.wis}</Button></ListGroup.Item>
-                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.char, 'CHAR')} variant="outline-dark">CHAR: {savingThrows.char}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.int, 'INT', stats.int)} variant="outline-dark">INT: {savingThrows.int}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.wis, 'WIS', stats.wis)} variant="outline-dark">WIS: {savingThrows.wis}</Button></ListGroup.Item>
+                                    <ListGroup.Item variant="warning"><Button onClick={() => savingThrowRoll(savingThrows.char, 'CHAR', stats.char)} variant="outline-dark">CHAR: {savingThrows.char}</Button></ListGroup.Item>
                                 </ListGroup>
                             </div>
                         </div>

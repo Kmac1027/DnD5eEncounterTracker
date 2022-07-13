@@ -1,6 +1,6 @@
 import Stats from "./Stats";
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
+
 import { Card, Button } from 'react-bootstrap';
 import Autocomplete from "./Autocomplete";
 
@@ -32,6 +32,7 @@ function Parent() {
 
 
     const [monsterButtons, setMonsterButtons] = useState([]);
+    // const [monsterButtons, setMonsterButtons] = useState([{ index: 'bearded-devil', name: 'Bearded Devil', url: '/api/monsters/bearded-devil' }, { index: 'adult-blue-dragon', name: 'Adult Blue Dragon', url: '/api/monsters/adult-blue-dragon' }, { index: 'giant-badger', name: 'Giant Badger', url: '/api/monsters/giant-badger' }]);
 
 
 
@@ -40,18 +41,18 @@ function Parent() {
         const response = await fetch(`https://www.dnd5eapi.co${monster.url}`);
         data = await response.json();
         populateMonsterInfo(data);
-        console.log(data, 'this is the data');
+        // console.log(data, 'this is the data');
 
-        const response2 = await fetch(`https://www.dnd5eapi.co/api/monsters/druid`);
-        data2 = await response2.json();
-        console.log(data2);
+        // const response2 = await fetch(`https://www.dnd5eapi.co/api/monsters/druid`);
+        // data2 = await response2.json();
+        // console.log(data2);
     }
 
     async function populateMonsterInfo(data) {
         // const response = await fetch('https://www.dnd5eapi.co/api/monsters/adult-blue-dragon');
         // data = await response.json();
         // console.log(data);
-
+        console.log(data);
         setName(data.name);
         setSize(data.size);
         setAlignment(data.alignment);
@@ -104,15 +105,19 @@ function Parent() {
                 <button onClick={() => getMonsterInfo()}>get</button>
             </div> */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-                <Card className='customCard' style={{ display: 'flex' }}>
-                    {
-                        monsterButtons.map((button, i) =>
-                            <div key={i}>
-                                <Button onClick={() => getData(button)} variant='dark' >{button.name}</Button>
-                                <br />
-                            </div>
-                        )
-                    }
+                <Card className='customCard'>
+                    <Card.Header style={{ color: 'black' }}>Stat Block</Card.Header>
+                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+                        {
+                            monsterButtons.map((button, i) =>
+                                <div key={i} style={{ padding: '5px' }}>
+                                    <Button onClick={() => getData(button)} variant='dark' >{button.name}</Button>
+                                    {/* <Button variant='dark' >{button.name}</Button> */}
+                                </div>
+                            )
+                        }
+                    </div>
+
                 </Card>
             </div >
             <br />

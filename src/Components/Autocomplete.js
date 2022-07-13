@@ -5,7 +5,7 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 function Autocomplete({ monsterButtons, setMonsterButtons }) {
     const inputRef = useRef(null);
-    const [placeholder, setPlaceholder] = useState('Enter Monster Name');
+
     var monsterArray = [];
     var monsterObj = {};
     var monsterObjArray = [];
@@ -16,16 +16,22 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
             const data = await response.json();
             for (let i = 0; i < data.results.length; i++) {
 
-                monsterArray.push(data.results[i].name);
-                monsterObj[data.results[i].name] = {
-                    index: data.results[i].index,
-                    name: data.results[i].name,
-                    url: data.results[i].url
-                };
-                // monsterObjArray.push(monsterObj[data.results[i].name]);
+                if (monsterArray.includes(data.results[i].name) === false) {
+                    monsterArray.push(data.results[i].name);
+                }
+                if (!monsterObj[data.results[i].name]) {
+                    monsterObj[data.results[i].name] = {
+                        index: data.results[i].index,
+                        name: data.results[i].name,
+                        url: data.results[i].url
+                    };
+                }
             }
+            for (let key in monsterObj) {
+                monsterObjArray.push(monsterObj[key]);
 
-
+            }
+            // setMonsterButtons(monsterObjArray);
         };
         getMonsterName();
     }, []);
@@ -34,12 +40,12 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
         if (inputRef.current.value === '') {
             alert('No Monster Entered in Input Box');
         } else {
-            // console.log(inputRef.current.value);
+            // console.log(monsterObj[inputRef.current.value]);
             setMonsterButtons(current => [...current, monsterObj[inputRef.current.value]]);
-            // console.log(monsterButtons);
+            console.log(monsterButtons);
+            // inputRef.current.value;
         }
     }
-
 
 
     useEffect(() => {
@@ -144,14 +150,15 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
         autocomplete(document.getElementById("myInput"), monsterArray);
     }, []);
 
+
     return (
         <div>
             <div id="centerform">
                 <form id="form">
                     <div className="autocomplete" style={{ width: '300px' }}>
-                        <input ref={inputRef} id="myInput" type="text" name="mySpellList" placeholder={placeholder}></input>
+                        <input ref={inputRef} id="myInput" type="text" name="mySpellList" ></input>
                     </div>
-                    <Button onClick={() => addMonster()} variant='dark' id="submit">Add to Encounter</Button>
+                    <Button onClick={addMonster} variant='dark' id="submit">Add to Stat Block</Button>
                 </form>
             </div>
         </div >
