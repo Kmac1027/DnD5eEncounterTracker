@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "788fc3afc0a2ca99c65a",
+    "revision": "a319335b6007213f11f0",
     "url": "/DnD5eEncounterTracker/static/css/main.4c331d5c.chunk.css"
   },
   {
-    "revision": "788fc3afc0a2ca99c65a",
-    "url": "/DnD5eEncounterTracker/static/js/main.8a1bbee0.chunk.js"
+    "revision": "a319335b6007213f11f0",
+    "url": "/DnD5eEncounterTracker/static/js/main.4aca1565.chunk.js"
   },
   {
     "revision": "446bf10efe3bdf1d477e",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/DnD5eEncounterTracker/static/media/statBG.cbe6ae5e.png"
   },
   {
-    "revision": "4024a14945dfc21b17fe20870df9d372",
+    "revision": "a6aead9cceb090c50dfeefefbeff5119",
     "url": "/DnD5eEncounterTracker/index.html"
   }
 ];
