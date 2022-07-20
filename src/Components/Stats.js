@@ -1,9 +1,9 @@
 import "../styles/statBlock.css";
 import React, { useState } from "react";
-import { Card, Button, ListGroup, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Card, Button, ListGroup, Popover, OverlayTrigger, ListGroupItem } from 'react-bootstrap';
 import Encounter from "./Encounter";
 import AddToEncounterButton from "./AddToEncounterButton";
-function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, speed, stats, actions, legendaryActions, savingThrows, XP, CR, senses, languages, specialAbilities, conditionImmunities, damageImmunities, damageResistances, damageVulnerabilities }) {
+function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, speed, stats, skills, actions, legendaryActions, savingThrows, XP, CR, senses, languages, specialAbilities, conditionImmunities, damageImmunities, damageResistances, damageVulnerabilities, IMG }) {
 
     const [d20, setD20] = useState();
     const [hit, setHit] = useState();
@@ -17,8 +17,16 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
     const [savingThrow, setSavingThrow] = useState();
     const [savingThrowName, setSavingThrowName] = useState();
     const [addToEncounterArray, setAddToEncounterArray] = useState([]);
+    const [statCheckD20Roll, setStatCheckD20Roll] = useState();
+    const [statCheckBonus, setStatCheckBonus] = useState();
+
+    const [saveCheckD20Roll, setSaveCheckD20Roll] = useState();
+    const [saveCheckBonus, setSaveCheckBonus] = useState();
+    const [saveCheckProficency, setSaveCheckProficency] = useState();
+
 
     function attackButton(action) {
+        console.log(action);
         setAttackNameHit(action.name);
         setAttackNameDamage(action.name);
         let totalDamage = 0;
@@ -29,69 +37,75 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         let toHit = random + action.attack_bonus;
         setAttackBonus(action.attack_bonus);
         setHit(toHit);
+        console.log(action.damage_dice.split(''));
 
-        for (let i = 0; i < action.damage.length; i++) {
-            let howManyDiceArray = [];
-            let typeOfDiceArray = [];
-            let additionArray = [];
-            let howManyDice = 0;
-            let typeOfDice = 0;
-            let addition = 0;
-            for (let j = 0; j < action.damage[i].damage_dice.length; j++) {
-                if (action.damage[i].damage_dice[j] === 'd') {
-                    var leftOffJ = j + 1;
+
+        let howManyDiceArray = [];
+        let typeOfDiceArray = [];
+        let additionArray = [];
+        let howManyDice = 0;
+        let typeOfDice = 0;
+        let addition = 0;
+        for (let j = 0; j < action.damage_dice.length; j++) {
+            if (action.damage_dice[j] === 'd') {
+                var leftOffJ = j + 1;
+                break;
+            } else {
+                howManyDiceArray.push(action.damage_dice[j]);
+            }
+        }
+        howManyDice = howManyDiceArray.join('');
+
+        if (action.damage_dice.includes('+') === true) {
+            for (let j = leftOffJ; j < action.damage_dice.length; j++) {
+                if (action.damage_dice[j] === '+') {
+                    leftOffJ = j + 1;
                     break;
                 } else {
-                    howManyDiceArray.push(action.damage[i].damage_dice[j]);
+                    typeOfDiceArray.push(action.damage_dice[j]);
                 }
             }
-            howManyDice = howManyDiceArray.join('');
+            typeOfDice = typeOfDiceArray.join('');
 
 
 
-            if (action.damage[i].damage_dice.includes('+') === true) {
-                for (let j = leftOffJ; j < action.damage[i].damage_dice.length; j++) {
-                    if (action.damage[i].damage_dice[j] === '+') {
-                        leftOffJ = j + 1;
-                        break;
-                    } else {
-                        typeOfDiceArray.push(action.damage[i].damage_dice[j]);
-                    }
-                }
-                typeOfDice = typeOfDiceArray.join('');
-
-
-
-                for (let j = leftOffJ; j < action.damage[i].damage_dice.length; j++) {
-                    additionArray.push(action.damage[i].damage_dice[j]);
-                }
-                addition = additionArray.join('');
-
-
-
-            } else {
-                for (let j = leftOffJ; j < action.damage[i].damage_dice.length; j++) {
-                    typeOfDiceArray.push(action.damage[i].damage_dice[j]);
-                }
-                typeOfDice = typeOfDiceArray.join('');
+            for (let j = leftOffJ; j < action.damage_dice.length; j++) {
+                additionArray.push(action.damage_dice[j]);
             }
+            addition = additionArray.join('');
 
-            let damageCalc = 0;
-            for (let i = 0; i < howManyDice; i++) {
-                damageCalc += 1 + Math.floor(Math.random() * parseInt(typeOfDice, 10));
-                console.log('damage roll', damageCalc);
-            }
-            let finalDamage = 0;
-            if (addition) {
-                finalDamage = parseInt(damageCalc, 10) + parseInt(addition, 10);
-                console.log('addition', addition);
-            } else {
-                finalDamage = damageCalc;
-            }
-            console.log('final damage', finalDamage);
-            allDamageArray.push({ damage: finalDamage, type: action.damage[i].damage_type.name, dice: action.damage[i].damage_dice });
 
+
+        } else {
+            for (let j = leftOffJ; j < action.damage_dice.length; j++) {
+                typeOfDiceArray.push(action.damage_dice[j]);
+            }
+            typeOfDice = typeOfDiceArray.join('');
         }
+
+        let damageCalc = 0;
+        for (let i = 0; i < howManyDice; i++) {
+            damageCalc += 1 + Math.floor(Math.random() * parseInt(typeOfDice, 10));
+            console.log('damage roll', damageCalc);
+        }
+        let finalDamage = 0;
+        if (addition) {
+            finalDamage = parseInt(damageCalc, 10) + parseInt(addition, 10);
+            console.log('addition', addition);
+        } else {
+            finalDamage = damageCalc;
+        }
+        console.log('final damage', finalDamage);
+        let damageType;
+        let split = action.desc.split(" ");
+        for (let i = 0; i < split.length; i++) {
+            if (split[i] === "damage") {
+                damageType = split[i - 1];
+            }
+        }
+        allDamageArray.push({ damage: finalDamage, type: damageType, dice: action.damage_dice });
+
+
         for (let i = 0; i < allDamageArray.length; i++) {
             let stringFix = parseInt(allDamageArray[i].damage, 10);
             totalDamage += stringFix;
@@ -118,7 +132,9 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         setStatCheckName(name);
         let random = 1 + Math.floor(Math.random() * 20);
         setStatCheck(random + stat);
-        console.log(stat, random);
+        setStatCheckD20Roll(random);
+        setStatCheckBonus(stat);
+        console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
     }
     function savingThrowRoll(save, name, stat) {
         stat = Math.floor((stat - 10) / 2);
@@ -126,33 +142,57 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         let random = 1 + Math.floor(Math.random() * 20);
         if (save) {
             setSavingThrow(random + save);
+            setSaveCheckBonus('Included in Proficency');
+            setSaveCheckProficency(save);
             console.log('D20 Roll: ', random, 'Proficency bonus: ', save);
         } else {
             setSavingThrow(random + stat);
+            setSaveCheckBonus(stat);
+            setSaveCheckProficency("None");
             console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
         }
+        setSaveCheckD20Roll(random);
     }
 
     function clearStatRolls() {
         setStatCheckName();
-        setSavingThrowName();
+        setStatCheckD20Roll();
         setStatCheck();
+        setStatCheckBonus();
+    }
+    function clearSaveRolls() {
+        setSavingThrowName();
         setSavingThrow();
+        setSaveCheckBonus();
+        setSaveCheckD20Roll();
+        setSaveCheckProficency();
     }
     return (
         <div id="statBlock" style={{ color: 'black' }}>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Card className='customCard' style={{ width: '18rem', fontSize: '75%' }}>
-                    <Card.Header as='h4'>Checks/Saving Throws</Card.Header>
+                    <Card.Header as='h4'>{statCheckName} Stat Check: {statCheck}</Card.Header>
                     <ListGroup variant="flush">
-                        <ListGroup.Item variant="warning"><h5>{statCheckName} Check: {statCheck}</h5></ListGroup.Item>
-                        <ListGroup.Item variant="warning"><h5>{savingThrowName} Saving Throw: {savingThrow}</h5></ListGroup.Item>
+                        <ListGroup.Item variant="warning"><h5> D20 Roll: {statCheckD20Roll} </h5></ListGroup.Item>
+                        <ListGroup.Item variant="warning"><h5>Stat Bonus: {statCheckBonus}</h5></ListGroup.Item>
                     </ListGroup>
                     <div>
                         <Button onClick={() => clearStatRolls()} variant='dark' size="sm" style={{ width: '5rem' }}>Clear</Button>
                     </div>
                 </Card>
+                <Card className='customCard' style={{ width: '18rem', fontSize: '75%' }}>
+                    <Card.Header as='h4'>{savingThrowName} Saving Throw: {savingThrow} </Card.Header>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item variant="warning"><h5>D20 Roll: {saveCheckD20Roll}</h5></ListGroup.Item>
+                        <ListGroup.Item variant="warning"><h5>Stat Bonus: {saveCheckBonus}</h5></ListGroup.Item>
+                        <ListGroup.Item variant="warning"><h5>Proficency Bonus: {saveCheckProficency} </h5></ListGroup.Item>
+                    </ListGroup>
+                    <div>
+                        <Button onClick={() => clearSaveRolls()} variant='dark' size="sm" style={{ width: '5rem' }}>Clear</Button>
+                    </div>
+                </Card>
+
 
                 <Card className='customCard' style={{ width: '18rem', fontSize: '75%' }}>
                     <Card.Header as='h4'>{attackNameHit} Hit: {hit}</Card.Header>
@@ -195,10 +235,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                             HP={HP}
                         />
 
-                        {/* <Card.Img fluid='true' variant="top" src="ABD.jpeg" style={{ width: '10rem' }} /> */}
-
-
-
+                        <Card.Img fluid='true' variant="top" src={IMG} style={{ width: '10rem' }} />
 
                     </div>
                     <Card.Body>
@@ -225,10 +262,13 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         <Card.Header as="h4">Info</Card.Header>
                         <ListGroup variant="flush">
                             <ListGroup.Item variant="warning"><h6>CR: {CR} - XP: {XP}</h6></ListGroup.Item>
-                            <ListGroup.Item variant="warning"><h6>Senses:</h6>
+                            {/* <ListGroup.Item variant="warning"><h6>Senses:</h6>
                                 {senses.blindsight ? <div style={{ fontSize: '50%' }}> Blindsight: {senses.blindsight}</div> : null}
                                 {senses.darkvision ? <div style={{ fontSize: '50%' }}>Darkvision: {senses.darkvision}</div> : null}
                                 {senses.passive_perception ? <div style={{ fontSize: '50%' }}>Passive Perception: {senses.passive_perception}</div> : null}
+                            </ListGroup.Item> */}
+                            <ListGroup.Item variant="warning"><h6>Senses:</h6>
+                                <p style={{ fontSize: '50%' }}>{senses}</p>
                             </ListGroup.Item>
                             <ListGroup.Item variant="warning" style={{ fontSize: '50%' }}><h6>Languages:</h6> {languages} </ListGroup.Item>
                         </ListGroup>
@@ -298,31 +338,58 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         </div>
                     </Card>
                 </div>
-                <Card className='customCard' style={{ width: '15rem', height: '32rem' }}>
-                    <Card.Header as="h4">Special Abilities:</Card.Header>
-                    <ListGroup>
+                <div>
+                    <Card className='customCard' style={{ width: '15rem', height: '8rem' }}>
+                        <Card.Header as="h4">Skills:</Card.Header>
+                        <ListGroup.Item variant="warning">
+                            <div>
+                                {skills.athletics ? <div style={{ fontSize: '50%' }}>Athletics: {skills.athletics}</div> : null}
+                                {skills.acrobatics ? <div style={{ fontSize: '50%' }}>Acrobatics: {skills.acrobatics}</div> : null}
+                                {skills.sleight_of_hand ? <div style={{ fontSize: '50%' }}>Slight of Hand: {skills.sleight_of_hand}</div> : null}
+                                {skills.stealth ? <div style={{ fontSize: '50%' }}>Stealth: {skills.stealth}</div> : null}
+                                {skills.arcana ? <div style={{ fontSize: '50%' }}>Arcana: {skills.arcana}</div> : null}
+                                {skills.history ? <div style={{ fontSize: '50%' }}>History: {skills.history}</div> : null}
+                                {skills.investigation ? <div style={{ fontSize: '50%' }}>Investigation: {skills.investigation}</div> : null}
+                                {skills.nature ? <div style={{ fontSize: '50%' }}>Nature: {skills.nature}</div> : null}
+                                {skills.religion ? <div style={{ fontSize: '50%' }}>Religion: {skills.religion}</div> : null}
+                                {skills.animal_handling ? <div style={{ fontSize: '50%' }}>Animal Handling: {skills.animal_handling}</div> : null}
+                                {skills.insight ? <div style={{ fontSize: '50%' }}>Insight: {skills.insight}</div> : null}
+                                {skills.medicine ? <div style={{ fontSize: '50%' }}>Medicine: {skills.medicine}</div> : null}
+                                {skills.perception ? <div style={{ fontSize: '50%' }}>Perception: {skills.perception}</div> : null}
+                                {skills.survival ? <div style={{ fontSize: '50%' }}>Survival: {skills.survival}</div> : null}
+                                {skills.deception ? <div style={{ fontSize: '50%' }}>Deception: {skills.deception}</div> : null}
+                                {skills.intimidation ? <div style={{ fontSize: '50%' }}>Intimidation: {skills.intimidation}</div> : null}
+                                {skills.performance ? <div style={{ fontSize: '50%' }}>Performance: {skills.performance}</div> : null}
+                                {skills.persuasion ? <div style={{ fontSize: '50%' }}>Persuasion: {skills.persuasion}</div> : null}
+                            </div>
+                        </ListGroup.Item>
+                    </Card>
+                    <Card className='customCard' style={{ width: '15rem', height: '24rem' }}>
+                        <Card.Header as="h4">Special Abilities:</Card.Header>
+                        <ListGroup>
 
-                        {specialAbilities.map((ability, i) =>
-                            <ListGroup.Item variant="warning" key={i}>
-                                <OverlayTrigger trigger="click" placement="right" overlay={
-                                    <Popover id="popover-basic">
-                                        <Popover.Header as="h3">{ability.name}</Popover.Header>
-                                        <Popover.Body>
-                                            {ability.desc}
-                                            {ability.damage ?
-                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                    <Button onClick={() => attackButton(ability)} variant="danger" size="sm">{ability.name}</Button>
-                                                </div> : null}
-                                        </Popover.Body>
-                                    </Popover>
-                                }>
-                                    <Button variant="dark" style={{ height: '3rem', width: '8rem', fontSize: '50%' }}>{ability.name}</Button>
-                                </OverlayTrigger>
-                            </ListGroup.Item>
-                        )}
+                            {specialAbilities.map((ability, i) =>
+                                <ListGroup.Item variant="warning" key={i}>
+                                    <OverlayTrigger trigger="click" placement="right" overlay={
+                                        <Popover id="popover-basic">
+                                            <Popover.Header as="h3">{ability.name}</Popover.Header>
+                                            <Popover.Body>
+                                                {ability.desc}
+                                                {ability.damage ?
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                        <Button onClick={() => attackButton(ability)} variant="danger" size="sm">{ability.name}</Button>
+                                                    </div> : null}
+                                            </Popover.Body>
+                                        </Popover>
+                                    }>
+                                        <Button variant="dark" style={{ height: '3rem', width: '8rem', fontSize: '50%' }}>{ability.name}</Button>
+                                    </OverlayTrigger>
+                                </ListGroup.Item>
+                            )}
 
-                    </ListGroup>
-                </Card>
+                        </ListGroup>
+                    </Card>
+                </div>
                 <Card className='customCard' style={{ width: '15rem', height: '32rem' }}>
                     <Card.Header as="h4">Actions</Card.Header>
                     <ListGroup variant="flush">
@@ -335,7 +402,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                                             {action.desc}
                                             <br />
                                             <br />
-                                            {action.damage ?
+                                            {action.damage_dice ?
                                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                     <Button onClick={() => attackButton(action)} variant="danger" size="sm">{action.name}</Button>
                                                 </div>
@@ -349,10 +416,11 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         )}
                     </ListGroup>
                 </Card>
+
                 <Card className='customCard' style={{ width: '15rem', height: '32rem' }}>
                     <Card.Header as="h4">Legendary Actions</Card.Header>
                     <ListGroup variant="flush">
-                        {legendaryActions.map((action, i) =>
+                        {legendaryActions ? legendaryActions.map((action, i) =>
                             <ListGroup.Item variant="warning" key={i}>
                                 <OverlayTrigger trigger="click" placement="left" overlay={
                                     <Popover id="popover-basic">
@@ -371,7 +439,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                                     <Button variant="dark" style={{ height: '3rem', width: '8rem', fontSize: '50%' }}>{action.name}</Button>
                                 </OverlayTrigger>
                             </ListGroup.Item>
-                        )}
+                        ) : null}
                     </ListGroup>
                 </Card>
             </div >

@@ -5,45 +5,43 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 function Autocomplete({ monsterButtons, setMonsterButtons }) {
     const inputRef = useRef(null);
-
     var monsterArray = [];
     var monsterObj = {};
     var monsterObjArray = [];
 
-    useEffect(() => {
-        async function getMonsterName() {
-            const response = await fetch('https://www.dnd5eapi.co/api/monsters');
-            const data = await response.json();
-            for (let i = 0; i < data.results.length; i++) {
+    // useEffect(() => {
+    //     async function getMonsterName() {
+    //         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
+    //         const data = await response.json();
+    //         for (let i = 0; i < data.results.length; i++) {
 
-                if (monsterArray.includes(data.results[i].name) === false) {
-                    monsterArray.push(data.results[i].name);
-                }
-                if (!monsterObj[data.results[i].name]) {
-                    monsterObj[data.results[i].name] = {
-                        index: data.results[i].index,
-                        name: data.results[i].name,
-                        url: data.results[i].url
-                    };
-                }
-            }
-            for (let key in monsterObj) {
-                monsterObjArray.push(monsterObj[key]);
+    //             if (monsterArray.includes(data.results[i].name) === false) {
+    //                 monsterArray.push(data.results[i].name);
+    //             }
+    //             if (!monsterObj[data.results[i].name]) {
+    //                 monsterObj[data.results[i].name] = {
+    //                     index: data.results[i].index,
+    //                     name: data.results[i].name,
+    //                     url: data.results[i].url
+    //                 };
+    //             }
+    //         }
+    //         for (let key in monsterObj) {
+    //             monsterObjArray.push(monsterObj[key]);
 
-            }
-            // setMonsterButtons(monsterObjArray);
-        };
-        getMonsterName();
-    }, []);
+    //         }
+    //         // setMonsterButtons(monsterObjArray);
+    //     };
+    //     getMonsterName();
+    // }, []);
+
+
 
     function addMonster() {
         if (inputRef.current.value === '') {
             alert('No Monster Entered in Input Box');
         } else {
-            // console.log(monsterObj[inputRef.current.value]);
             setMonsterButtons(current => [...current, monsterObj[inputRef.current.value]]);
-            console.log(monsterButtons);
-            // inputRef.current.value;
         }
     }
 
@@ -154,11 +152,11 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
     return (
         <div>
             <div id="centerform">
-                <form id="form">
+                <form id="form" >
                     <div className="autocomplete" style={{ width: '300px' }}>
                         <input ref={inputRef} id="myInput" type="text" name="mySpellList" ></input>
                     </div>
-                    <Button onClick={addMonster} variant='dark' id="submit">Add to Stat Block</Button>
+                    <Button onClick={() => addMonster()} variant='dark' id="submit">Add to Stat Block</Button>
                 </form>
             </div>
         </div >
