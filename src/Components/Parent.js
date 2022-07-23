@@ -4,11 +4,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import Autocomplete from "./Autocomplete";
 
-// var data;
 var allMonsterArray = [];
 var allMonsterObj = {};
-// var savingThrowObj = {};
+
 function Parent() {
+    const [isLoading, setLoading] = useState(true);
+    const [monsterData, setMonsterData] = useState({});
+
     const [name, setName] = useState();
     const [size, setSize] = useState();
     const [alignment, setAlignment] = useState();
@@ -34,9 +36,8 @@ function Parent() {
     const [IMG, setIMG] = useState();
 
 
-    // const [monsterButtons, setMonsterButtons] = useState([]);
-    const [monsterButtons, setMonsterButtons] = useState(['1']);
-
+    const [monsterButtons, setMonsterButtons] = useState([]);
+    // const [monsterButtons, setMonsterButtons] = useState(['1']);
 
     useEffect(() => {
         async function getData() {
@@ -158,12 +159,13 @@ function Parent() {
             }
             // console.log(Object.keys(allMonsterObj).length);
             // console.log(allMonsterObj);
+            setMonsterData(allMonsterObj);
+            setLoading(false);
         };
         getData();
     }, []);
 
     function populateMonsterInfo(monster) {
-        // console.log(monster);
         setName(monster.name);
         setSize(monster.size);
         setAlignment(monster.alignment);
@@ -211,11 +213,8 @@ function Parent() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Autocomplete monsterButtons={monsterButtons} setMonsterButtons={setMonsterButtons} />
+            <Autocomplete isLoading={isLoading} monsterButtons={monsterButtons} setMonsterButtons={setMonsterButtons} />
             <br />
-            {/* <div>
-                <button onClick={() => getMonsterInfo()}>get</button>
-            </div> */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
                 <Card className='customCard'>
                     <Card.Header style={{ color: 'black' }}>Stat Block</Card.Header>
@@ -223,7 +222,7 @@ function Parent() {
                         {
                             monsterButtons.map((button, i) =>
                                 <div key={i} style={{ padding: '5px' }}>
-                                    <Button onClick={() => populateMonsterInfo(allMonsterObj['Ammut'])} variant='dark' >{button.name}</Button>
+                                    <Button onClick={() => populateMonsterInfo(allMonsterObj[button])} variant='dark' >{button}</Button>
                                     {/* <Button variant='dark' >{button.name}</Button> */}
                                 </div>
                             )
@@ -259,6 +258,7 @@ function Parent() {
                     damageResistances={damageResistances}
                     damageVulnerabilities={damageVulnerabilities}
                     IMG={IMG}
+                    monsterData={monsterData}
                 />
             </div>
         </div>

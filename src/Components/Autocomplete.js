@@ -3,37 +3,170 @@ import { Button } from 'react-bootstrap';
 import "../styles/autocomplete.css";
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
-function Autocomplete({ monsterButtons, setMonsterButtons }) {
+function Autocomplete({ monsterButtons, setMonsterButtons, isLoading }) {
     const inputRef = useRef(null);
-    var monsterArray = [];
-    var monsterObj = {};
-    var monsterObjArray = [];
+    var monsterNameArray = [];
 
-    // useEffect(() => {
-    //     async function getMonsterName() {
-    //         const response = await fetch('https://www.dnd5eapi.co/api/monsters');
-    //         const data = await response.json();
-    //         for (let i = 0; i < data.results.length; i++) {
+    useEffect(() => {
+        async function getMonsterName() {
+            const response1 = await fetch(`https://api.open5e.com/monsters/?page=1`);
+            let data1 = await response1.json();
+            for (let i = 0; i <= data1.results.length; i++) {
+                if (data1.results[i]) {
+                    monsterNameArray.push(data1.results[i].name);
+                }
+            }
+            const response2 = await fetch(`https://api.open5e.com/monsters/?page=2`);
+            let data2 = await response2.json();
+            for (let i = 0; i <= data2.results.length; i++) {
+                if (data2.results[i]) {
+                    monsterNameArray.push(data2.results[i].name);
+                }
+            }
+            const response3 = await fetch(`https://api.open5e.com/monsters/?page=3`);
+            let data3 = await response3.json();
+            for (let i = 0; i <= data3.results.length; i++) {
+                if (data3.results[i]) {
+                    monsterNameArray.push(data3.results[i].name);
+                }
+            }
+            const response4 = await fetch(`https://api.open5e.com/monsters/?page=4`);
+            let data4 = await response4.json();
+            for (let i = 0; i <= data4.results.length; i++) {
+                if (data4.results[i]) {
+                    monsterNameArray.push(data4.results[i].name);
+                }
+            }
+            const response5 = await fetch(`https://api.open5e.com/monsters/?page=5`);
+            let data5 = await response5.json();
+            for (let i = 0; i <= data5.results.length; i++) {
+                if (data5.results[i]) {
+                    monsterNameArray.push(data5.results[i].name);
+                }
+            }
+            const response6 = await fetch(`https://api.open5e.com/monsters/?page=6`);
+            let data6 = await response6.json();
+            for (let i = 0; i <= data6.results.length; i++) {
+                if (data6.results[i]) {
+                    monsterNameArray.push(data6.results[i].name);
+                }
+            }
+            const response7 = await fetch(`https://api.open5e.com/monsters/?page=7`);
+            let data7 = await response7.json();
+            for (let i = 0; i <= data7.results.length; i++) {
+                if (data7.results[i]) {
+                    monsterNameArray.push(data7.results[i].name);
+                }
+            }
+            const response8 = await fetch(`https://api.open5e.com/monsters/?page=8`);
+            let data8 = await response8.json();
+            for (let i = 0; i <= data8.results.length; i++) {
+                if (data8.results[i]) {
+                    monsterNameArray.push(data8.results[i].name);
+                }
+            }
+            const response9 = await fetch(`https://api.open5e.com/monsters/?page=9`);
+            let data9 = await response9.json();
+            for (let i = 0; i <= data9.results.length; i++) {
+                if (data9.results[i]) {
+                    monsterNameArray.push(data9.results[i].name);
+                }
+            }
+            const response10 = await fetch(`https://api.open5e.com/monsters/?page=10`);
+            let data10 = await response10.json();
+            for (let i = 0; i <= data10.results.length; i++) {
+                if (data10.results[i]) {
+                    monsterNameArray.push(data10.results[i].name);
+                }
+            }
+            const response11 = await fetch(`https://api.open5e.com/monsters/?page=11`);
+            let data11 = await response11.json();
+            for (let i = 0; i <= data11.results.length; i++) {
+                if (data11.results[i]) {
+                    monsterNameArray.push(data11.results[i].name);
+                }
+            }
+            const response12 = await fetch(`https://api.open5e.com/monsters/?page=12`);
+            let data12 = await response12.json();
+            for (let i = 0; i <= data12.results.length; i++) {
+                if (data12.results[i]) {
+                    monsterNameArray.push(data12.results[i].name);
+                }
+            }
+            const response13 = await fetch(`https://api.open5e.com/monsters/?page=13`);
+            let data13 = await response13.json();
+            for (let i = 0; i <= data13.results.length; i++) {
+                if (data13.results[i]) {
+                    monsterNameArray.push(data13.results[i].name);
+                }
+            }
+            const response14 = await fetch(`https://api.open5e.com/monsters/?page=14`);
+            let data14 = await response14.json();
+            for (let i = 0; i <= data14.results.length; i++) {
+                if (data14.results[i]) {
+                    monsterNameArray.push(data14.results[i].name);
+                }
+            }
+            const response15 = await fetch(`https://api.open5e.com/monsters/?page=15`);
+            let data15 = await response15.json();
+            for (let i = 0; i <= data15.results.length; i++) {
+                if (data15.results[i]) {
+                    monsterNameArray.push(data15.results[i].name);
+                }
+            }
+            const response16 = await fetch(`https://api.open5e.com/monsters/?page=16`);
+            let data16 = await response16.json();
+            for (let i = 0; i <= data16.results.length; i++) {
+                if (data16.results[i]) {
+                    monsterNameArray.push(data16.results[i].name);
+                }
+            }
+            const response17 = await fetch(`https://api.open5e.com/monsters/?page=17`);
+            let data17 = await response17.json();
+            for (let i = 0; i <= data17.results.length; i++) {
+                if (data17.results[i]) {
+                    monsterNameArray.push(data17.results[i].name);
+                }
+            }
+            const response18 = await fetch(`https://api.open5e.com/monsters/?page=18`);
+            let data18 = await response18.json();
+            for (let i = 0; i <= data18.results.length; i++) {
+                if (data18.results[i]) {
+                    monsterNameArray.push(data18.results[i].name);
+                }
+            }
+            const response19 = await fetch(`https://api.open5e.com/monsters/?page=19`);
+            let data19 = await response19.json();
+            for (let i = 0; i <= data19.results.length; i++) {
+                if (data19.results[i]) {
+                    monsterNameArray.push(data19.results[i].name);
+                }
+            }
+            const response20 = await fetch(`https://api.open5e.com/monsters/?page=20`);
+            let data20 = await response20.json();
+            for (let i = 0; i <= data20.results.length; i++) {
+                if (data20.results[i]) {
+                    monsterNameArray.push(data20.results[i].name);
+                }
+            }
+            const response21 = await fetch(`https://api.open5e.com/monsters/?page=21`);
+            let data21 = await response21.json();
+            for (let i = 0; i <= data21.results.length; i++) {
+                if (data21.results[i]) {
+                    monsterNameArray.push(data21.results[i].name);
+                }
+            }
+            const response22 = await fetch(`https://api.open5e.com/monsters/?page=22`);
+            let data22 = await response22.json();
+            for (let i = 0; i <= data22.results.length; i++) {
+                if (data22.results[i]) {
+                    monsterNameArray.push(data22.results[i].name);
+                }
+            }
+        };
+        getMonsterName();
+    }, []);
 
-    //             if (monsterArray.includes(data.results[i].name) === false) {
-    //                 monsterArray.push(data.results[i].name);
-    //             }
-    //             if (!monsterObj[data.results[i].name]) {
-    //                 monsterObj[data.results[i].name] = {
-    //                     index: data.results[i].index,
-    //                     name: data.results[i].name,
-    //                     url: data.results[i].url
-    //                 };
-    //             }
-    //         }
-    //         for (let key in monsterObj) {
-    //             monsterObjArray.push(monsterObj[key]);
-
-    //         }
-    //         // setMonsterButtons(monsterObjArray);
-    //     };
-    //     getMonsterName();
-    // }, []);
 
 
 
@@ -41,7 +174,8 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
         if (inputRef.current.value === '') {
             alert('No Monster Entered in Input Box');
         } else {
-            setMonsterButtons(current => [...current, monsterObj[inputRef.current.value]]);
+            // console.log(inputRef.current.value);
+            setMonsterButtons((monsterButtons) => [...monsterButtons, inputRef.current.value]);
         }
     }
 
@@ -145,7 +279,7 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
             });
         }
 
-        autocomplete(document.getElementById("myInput"), monsterArray);
+        autocomplete(document.getElementById("myInput"), monsterNameArray);
     }, []);
 
 
@@ -156,7 +290,7 @@ function Autocomplete({ monsterButtons, setMonsterButtons }) {
                     <div className="autocomplete" style={{ width: '300px' }}>
                         <input ref={inputRef} id="myInput" type="text" name="mySpellList" ></input>
                     </div>
-                    <Button onClick={() => addMonster()} variant='dark' id="submit">Add to Stat Block</Button>
+                    <Button disabled={isLoading} onClick={() => addMonster()} variant='dark' id="submit">Add to Stat Block</Button>
                 </form>
             </div>
         </div >
