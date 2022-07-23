@@ -290,7 +290,7 @@ function Autocomplete({ monsterButtons, setMonsterButtons, isLoading }) {
                     <div className="autocomplete" style={{ width: '300px' }}>
                         <input ref={inputRef} id="myInput" type="text" name="mySpellList" ></input>
                     </div>
-                    <Button disabled={isLoading} onClick={() => addMonster()} variant='dark' id="submit">Add to Stat Block</Button>
+                    <Button disabled={isLoading} onClick={() => addMonster()} variant='dark' id="submit">{isLoading ? 'Loading Data...' : 'Add to Stat Block'}</Button>
                 </form>
             </div>
         </div >

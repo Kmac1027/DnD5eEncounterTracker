@@ -26,7 +26,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
 
 
     function attackButton(action) {
-        console.log(action);
+        // console.log(action);
         setAttackNameHit(action.name);
         setAttackNameDamage(action.name);
         let totalDamage = 0;
@@ -37,7 +37,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         let toHit = random + action.attack_bonus;
         setAttackBonus(action.attack_bonus);
         setHit(toHit);
-        console.log(action.damage_dice.split(''));
+        // console.log(action.damage_dice.split(''));
 
 
         let howManyDiceArray = [];
@@ -86,16 +86,16 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         let damageCalc = 0;
         for (let i = 0; i < howManyDice; i++) {
             damageCalc += 1 + Math.floor(Math.random() * parseInt(typeOfDice, 10));
-            console.log('damage roll', damageCalc);
+            // console.log('damage roll', damageCalc);
         }
         let finalDamage = 0;
         if (addition) {
             finalDamage = parseInt(damageCalc, 10) + parseInt(addition, 10);
-            console.log('addition', addition);
+            // console.log('addition', addition);
         } else {
             finalDamage = damageCalc;
         }
-        console.log('final damage', finalDamage);
+        // console.log('final damage', finalDamage);
         let damageType;
         let split = action.desc.split(" ");
         for (let i = 0; i < split.length; i++) {
@@ -134,7 +134,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         setStatCheck(random + stat);
         setStatCheckD20Roll(random);
         setStatCheckBonus(stat);
-        console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
+        // console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
     }
     function savingThrowRoll(save, name, stat) {
         stat = Math.floor((stat - 10) / 2);
@@ -144,12 +144,12 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
             setSavingThrow(random + save);
             setSaveCheckBonus('Included in Proficency');
             setSaveCheckProficency(save);
-            console.log('D20 Roll: ', random, 'Proficency bonus: ', save);
+            // console.log('D20 Roll: ', random, 'Proficency bonus: ', save);
         } else {
             setSavingThrow(random + stat);
             setSaveCheckBonus(stat);
             setSaveCheckProficency("None");
-            console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
+            // console.log('D20 Roll ', random, 'Stat Modifier: ', stat);
         }
         setSaveCheckD20Roll(random);
     }
@@ -209,7 +209,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                     <ListGroup variant="flush">
                         {damage.map((damage, i) =>
                             <div key={i}>
-                                <ListGroup.Item variant="warning"><h5>Damage{i + 1}: {damage.damage} {damage.type}</h5> ({damage.dice})</ListGroup.Item>
+                                <ListGroup.Item variant="warning"><h5>Damage {i + 1}: {damage.damage} {damage.type}</h5> ({damage.dice})</ListGroup.Item>
                             </div>
                         )}
                     </ListGroup>
@@ -232,6 +232,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                             addToEncounterArray={addToEncounterArray}
                             setAddToEncounterArray={setAddToEncounterArray}
                             name={name}
+                            hitDice={hitDice}
                             HP={HP}
                         />
 
@@ -262,11 +263,6 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         <Card.Header as="h4">Info</Card.Header>
                         <ListGroup variant="flush">
                             <ListGroup.Item variant="warning"><h6>CR: {CR} - XP: {XP}</h6></ListGroup.Item>
-                            {/* <ListGroup.Item variant="warning"><h6>Senses:</h6>
-                                {senses.blindsight ? <div style={{ fontSize: '50%' }}> Blindsight: {senses.blindsight}</div> : null}
-                                {senses.darkvision ? <div style={{ fontSize: '50%' }}>Darkvision: {senses.darkvision}</div> : null}
-                                {senses.passive_perception ? <div style={{ fontSize: '50%' }}>Passive Perception: {senses.passive_perception}</div> : null}
-                            </ListGroup.Item> */}
                             <ListGroup.Item variant="warning"><h6>Senses:</h6>
                                 <p style={{ fontSize: '50%' }}>{senses}</p>
                             </ListGroup.Item>
@@ -368,7 +364,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                         <Card.Header as="h4">Special Abilities:</Card.Header>
                         <ListGroup>
 
-                            {specialAbilities.map((ability, i) =>
+                            {specialAbilities ? specialAbilities.map((ability, i) =>
                                 <ListGroup.Item variant="warning" key={i}>
                                     <OverlayTrigger trigger="click" placement="right" overlay={
                                         <Popover id="popover-basic">
@@ -385,7 +381,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                                         <Button variant="dark" style={{ height: '3rem', width: '8rem', fontSize: '50%' }}>{ability.name}</Button>
                                     </OverlayTrigger>
                                 </ListGroup.Item>
-                            )}
+                            ) : null}
 
                         </ListGroup>
                     </Card>

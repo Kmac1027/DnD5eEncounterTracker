@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, ListGroup, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Card, ListGroup, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import "../styles/statBlock.css";
 function Encounter({ addToEncounterArray, setAddToEncounterArray }) {
     const [condition, setCondition] = useState('Normal');
@@ -13,15 +13,21 @@ function Encounter({ addToEncounterArray, setAddToEncounterArray }) {
                     {addToEncounterArray.map((monster, i) =>
 
                         <ListGroup.Item key={i} style={{ border: 'solid', borderColor: 'black' }}>
-                            <h6>{monster.name}</h6>
+                            <OverlayTrigger trigger="click" placement="right" overlay={
+                                <Popover id="popover-basic">
+                                    <Popover.Header as="h4">Add to Encounter</Popover.Header>
+                                    <Popover.Body style={{ display: 'flex' }}>
+                                        Health: {monster.health}
+                                    </Popover.Body>
+                                </Popover>
+                            }>
+                                <Button variant="dark" style={{ height: '2.5rem', width: '6.5rem', fontSize: '40%' }}>{monster.name}</Button>
+                            </OverlayTrigger>
+                            {/* <h6>{monster.name}</h6>
                             < div style={{ display: 'flex', fontSize: '1rem' }}>
-                                Health: {monster.health} /
-                                Condition:<DropdownButton variant='warning' size="sm" id="dropdown-basic-button" title={condition}>
-                                    <Dropdown.Item onClick={() => setCondition('Poisoned')}>Poisoned</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setCondition('Paralyzed')}>Paralyzed</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => setCondition('Doomed')}>Doomed</Dropdown.Item>
-                                </DropdownButton>
-                            </div>
+                                Health: {monster.health} 
+
+                            </div> */}
                         </ListGroup.Item>
                     )
                     }
