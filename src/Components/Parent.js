@@ -166,6 +166,7 @@ function Parent() {
     }, []);
 
     function populateMonsterInfo(monster) {
+        console.log(monster);
         setName(monster.name);
         setSize(monster.size);
         setAlignment(monster.alignment);

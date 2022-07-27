@@ -366,7 +366,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
 
                             {specialAbilities ? specialAbilities.map((ability, i) =>
                                 <ListGroup.Item variant="warning" key={i}>
-                                    <OverlayTrigger trigger="click" placement="right" overlay={
+                                    <OverlayTrigger rootClose='true' trigger="click" placement="auto" overlay={
                                         <Popover id="popover-basic">
                                             <Popover.Header as="h3">{ability.name}</Popover.Header>
                                             <Popover.Body>
@@ -391,7 +391,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                     <ListGroup variant="flush">
                         {actions.map((action, i) =>
                             <ListGroup.Item variant="warning" key={i}>
-                                <OverlayTrigger trigger="click" placement="right" overlay={
+                                <OverlayTrigger rootClose='true' trigger="click" placement="auto" overlay={
                                     <Popover id="popover-basic">
                                         <Popover.Header as="h3">{action.name}</Popover.Header>
                                         <Popover.Body>
@@ -418,7 +418,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                     <ListGroup variant="flush">
                         {legendaryActions ? legendaryActions.map((action, i) =>
                             <ListGroup.Item variant="warning" key={i}>
-                                <OverlayTrigger trigger="click" placement="left" overlay={
+                                <OverlayTrigger rootClose='true' trigger="click" placement="auto" overlay={
                                     <Popover id="popover-basic">
                                         <Popover.Header as="h3">{action.name}</Popover.Header>
                                         <Popover.Body>

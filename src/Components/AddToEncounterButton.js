@@ -74,9 +74,9 @@ function AddToEncounterButton({ addToEncounterArray, setAddToEncounterArray, nam
 
         }
 
-        console.log(howManyDice);
-        console.log(typeOfDice);
-        console.log(addition);
+        // console.log(howManyDice);
+        // console.log(typeOfDice);
+        // console.log(addition);
 
     }
 
@@ -94,13 +94,13 @@ function AddToEncounterButton({ addToEncounterArray, setAddToEncounterArray, nam
             health = hp;
         }
 
-        let addedMonster = { name: name, health: health };
+        let addedMonster = { name: name, health: health, id: Math.random() };
         setAddToEncounterArray(current => [...current, addedMonster]);
     }
 
     return (
         <div style={{ margin: '5px' }} >
-            <OverlayTrigger trigger="click" placement="right" overlay={
+            <OverlayTrigger rootClose='true' trigger="click" placement="auto" overlay={
                 <Popover id="popover-basic">
                     <Popover.Header as="h4">Add to Encounter</Popover.Header>
                     <Popover.Body style={{ display: 'flex' }}>
