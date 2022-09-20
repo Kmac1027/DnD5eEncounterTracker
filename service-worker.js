@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/DnD5eEncounterTracker/precache-manifest.96397bd0de55bdfb5f5e6dd99a6d191a.js"
+  "/DnD5eEncounterTracker/precache-manifest.894c68ccd88e378a149e6a1c88283fca.js"
 );
 
 workbox.clientsClaim();
