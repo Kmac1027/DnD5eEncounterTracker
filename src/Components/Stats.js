@@ -92,6 +92,8 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
         if (addition) {
             finalDamage = parseInt(damageCalc, 10) + parseInt(addition, 10);
             // console.log('addition', addition);
+        } if (action.damage_bonus) {
+            finalDamage = parseInt(damageCalc, 10) + parseInt(action.damage_bonus, 10);
         } else {
             finalDamage = damageCalc;
         }
@@ -103,7 +105,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                 damageType = split[i - 1];
             }
         }
-        allDamageArray.push({ damage: finalDamage, type: damageType, dice: action.damage_dice });
+        allDamageArray.push({ damage: finalDamage, type: damageType, dice: action.damage_dice, roll: damageCalc, bonus: action.damage_bonus });
 
 
         for (let i = 0; i < allDamageArray.length; i++) {
@@ -209,7 +211,7 @@ function Stats({ data, name, size, alignment, monsterType, armor, HP, hitDice, s
                     <ListGroup variant="flush">
                         {damage.map((damage, i) =>
                             <div key={i}>
-                                <ListGroup.Item variant="warning"><h5>Damage {i + 1}: {damage.damage} {damage.type}</h5> ({damage.dice})</ListGroup.Item>
+                                <ListGroup.Item variant="warning"><h5>Damage {i + 1}: Roll {damage.roll}  {damage.type}</h5> ({damage.dice}) <h5>Bonus {damage.bonus}</h5></ListGroup.Item>
                             </div>
                         )}
                     </ListGroup>

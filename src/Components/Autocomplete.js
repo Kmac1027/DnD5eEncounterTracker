@@ -163,6 +163,62 @@ function Autocomplete({ monsterButtons, setMonsterButtons, isLoading }) {
                     monsterNameArray.push(data22.results[i].name);
                 }
             }
+            const response23 = await fetch(`https://api.open5e.com/monsters/?page=23`);
+            let data23 = await response23.json();
+            for (let i = 0; i <= data23.results.length; i++) {
+                if (data23.results[i]) {
+                    monsterNameArray.push(data23.results[i].name);
+                }
+            }
+            const response24 = await fetch(`https://api.open5e.com/monsters/?page=24`);
+            let data24 = await response24.json();
+            for (let i = 0; i <= data24.results.length; i++) {
+                if (data24.results[i]) {
+                    monsterNameArray.push(data24.results[i].name);
+                }
+            }
+            const response25 = await fetch(`https://api.open5e.com/monsters/?page=25`);
+            let data25 = await response25.json();
+            for (let i = 0; i <= data25.results.length; i++) {
+                if (data25.results[i]) {
+                    monsterNameArray.push(data25.results[i].name);
+                }
+            }
+            const response26 = await fetch(`https://api.open5e.com/monsters/?page=26`);
+            let data26 = await response26.json();
+            for (let i = 0; i <= data26.results.length; i++) {
+                if (data26.results[i]) {
+                    monsterNameArray.push(data26.results[i].name);
+                }
+            }
+            const response27 = await fetch(`https://api.open5e.com/monsters/?page=27`);
+            let data27 = await response27.json();
+            for (let i = 0; i <= data27.results.length; i++) {
+                if (data27.results[i]) {
+                    monsterNameArray.push(data27.results[i].name);
+                }
+            }
+            const response28 = await fetch(`https://api.open5e.com/monsters/?page=28`);
+            let data28 = await response28.json();
+            for (let i = 0; i <= data28.results.length; i++) {
+                if (data28.results[i]) {
+                    monsterNameArray.push(data28.results[i].name);
+                }
+            }
+            const response29 = await fetch(`https://api.open5e.com/monsters/?page=29`);
+            let data29 = await response29.json();
+            for (let i = 0; i <= data29.results.length; i++) {
+                if (data29.results[i]) {
+                    monsterNameArray.push(data29.results[i].name);
+                }
+            }
+            const response30 = await fetch(`https://api.open5e.com/monsters/?page=30`);
+            let data30 = await response30.json();
+            for (let i = 0; i <= data30.results.length; i++) {
+                if (data30.results[i]) {
+                    monsterNameArray.push(data30.results[i].name);
+                }
+            }
         };
         getMonsterName();
     }, []);

@@ -151,6 +151,46 @@ function Parent() {
             for (let i = 0; i <= data22.results.length; i++) {
                 allMonsterArray.push(data22.results[i]);
             }
+            const response23 = await fetch(`https://api.open5e.com/monsters/?page=23`);
+            let data23 = await response23.json();
+            for (let i = 0; i <= data23.results.length; i++) {
+                allMonsterArray.push(data23.results[i]);
+            }
+            const response24 = await fetch(`https://api.open5e.com/monsters/?page=24`);
+            let data24 = await response24.json();
+            for (let i = 0; i <= data24.results.length; i++) {
+                allMonsterArray.push(data24.results[i]);
+            }
+            const response25 = await fetch(`https://api.open5e.com/monsters/?page=25`);
+            let data25 = await response25.json();
+            for (let i = 0; i <= data25.results.length; i++) {
+                allMonsterArray.push(data25.results[i]);
+            }
+            const response26 = await fetch(`https://api.open5e.com/monsters/?page=26`);
+            let data26 = await response26.json();
+            for (let i = 0; i <= data26.results.length; i++) {
+                allMonsterArray.push(data26.results[i]);
+            }
+            const response27 = await fetch(`https://api.open5e.com/monsters/?page=27`);
+            let data27 = await response27.json();
+            for (let i = 0; i <= data27.results.length; i++) {
+                allMonsterArray.push(data27.results[i]);
+            }
+            const response28 = await fetch(`https://api.open5e.com/monsters/?page=28`);
+            let data28 = await response28.json();
+            for (let i = 0; i <= data28.results.length; i++) {
+                allMonsterArray.push(data28.results[i]);
+            }
+            const response29 = await fetch(`https://api.open5e.com/monsters/?page=29`);
+            let data29 = await response29.json();
+            for (let i = 0; i <= data29.results.length; i++) {
+                allMonsterArray.push(data29.results[i]);
+            }
+            const response30 = await fetch(`https://api.open5e.com/monsters/?page=30`);
+            let data30 = await response30.json();
+            for (let i = 0; i <= data30.results.length; i++) {
+                allMonsterArray.push(data30.results[i]);
+            }
 
             for (let k = 0; k < allMonsterArray.length; k++) {
                 if (allMonsterArray[k]) {
@@ -158,7 +198,7 @@ function Parent() {
                 }
             }
             // console.log(Object.keys(allMonsterObj).length);
-            // console.log(allMonsterObj);
+            console.log(allMonsterObj);
             setMonsterData(allMonsterObj);
             setLoading(false);
         };
